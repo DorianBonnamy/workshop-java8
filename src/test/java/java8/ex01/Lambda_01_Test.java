@@ -3,6 +3,7 @@ package java8.ex01;
 import java8.data.Data;
 import java8.data.Person;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Test;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
@@ -22,8 +23,16 @@ public class Lambda_01_Test {
 
     // tag::filter[]
     private List<Person> filter(List<Person> persons, PersonPredicate predicate) {
-        // TODO implementer la méthode
-        return null;
+
+    	for(int i = 0; i < persons.size(); i ++)
+    	{
+    		if(!predicate.test(persons.get(i)))
+    		{
+    			persons.remove(i);
+    			i--;
+    		}    		
+    	}
+    	return persons;
     }
     // end::filter[]
 
@@ -35,7 +44,7 @@ public class Lambda_01_Test {
         List<Person> personList = Data.buildPersonList(100);
 
         // TODO result ne doit contenir que des personnes adultes (age >= 18)
-        List<Person> result = filter(personList, null);
+        List<Person> result = filter(personList, person -> person.getAge() >= 18);
 
         assertThat(result.size(), is(83));
         assertThat(result, everyItem(hasProperty("age", greaterThan(17))));
@@ -49,7 +58,7 @@ public class Lambda_01_Test {
         List<Person> personList = Data.buildPersonList(100);
 
         // TODO result ne doit contenir que des personnes dont le prénom est "first_10"
-        List<Person> result = filter(personList, null);
+        List<Person> result = filter(personList, person -> person.getFirstname().equals("first_10"));
 
         assertThat(result.size(), is(1));
         assertThat(result, everyItem(hasProperty("firstname", is("first_10"))));
@@ -66,8 +75,8 @@ public class Lambda_01_Test {
 
         // TODO result ne doit contenir que les personnes dont l'age est > 49 et dont le hash du mot de passe correspond à la valeur de la variable passwordSha512Hex
         // TODO Pour obtenir le hash d'un mot, utiliser la méthode DigestUtils.sha512Hex(mot)
-        List<Person> result = filter(personList, null);
-
+        List<Person> result1 = filter(personList, person -> person.getAge() > 49);
+        List<Person> result = filter(result1, person -> DigestUtils.sha512Hex(person.getPassword()).equals(passwordSha512Hex));
         assertThat(result.size(), is(6));
         assertThat(result, everyItem(hasProperty("password", is("test"))));
     }

@@ -24,8 +24,12 @@ public class Lambda_02_Test {
 
     // tag::map[]
     private List<Account> map(List<Person> personList, PersonToAccountMapper mapper) {
-        // TODO implémenter la méthode
-        return null;
+    	List<Account> map = new ArrayList<Account>();
+    	for(Person p : personList)
+    	{
+    		map.add(mapper.map(p));
+    	}
+        return map;
     }
     // end::map[]
 
@@ -38,7 +42,12 @@ public class Lambda_02_Test {
 
         // TODO transformer la liste de personnes en liste de comptes
         // TODO tous les objets comptes ont un solde à 100 par défaut
-        List<Account> result = map(personList, null);
+        List<Account> result = map(personList, b -> {
+        	Account a = new Account();
+        	a.setBalance(100);
+        	a.setOwner(b);
+        	return a;
+        });
 
         assertThat(result, hasSize(personList.size()));
         assertThat(result, everyItem(hasProperty("balance", is(100))));
@@ -53,8 +62,12 @@ public class Lambda_02_Test {
         List<Person> personList = Data.buildPersonList(100);
 
         // TODO transformer la liste de personnes en liste de prénoms
-        List<String> result = null;
-
+        List<String> result = new ArrayList();
+        for(Person p : personList)
+        {
+        	result.add(p.getFirstname());
+        }
+        
         assertThat(result, hasSize(personList.size()));
         assertThat(result, everyItem(instanceOf(String.class)));
         assertThat(result, everyItem(startsWith("first")));
