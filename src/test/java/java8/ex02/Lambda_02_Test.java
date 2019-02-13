@@ -64,7 +64,7 @@ public class Lambda_02_Test {
         List<Person> personList = Data.buildPersonList(100);
 
         // TODO transformer la liste de personnes en liste de prénoms
-        List<String> result = map(personList, p -> p.getFirstname());
+        List<String> result = map(personList, p -> ((Person) p).getFirstname());
         assertThat(result, hasSize(personList.size()));
         assertThat(result, everyItem(instanceOf(String.class)));
         assertThat(result, everyItem(startsWith("first")));
