@@ -21,16 +21,18 @@ public class Lambda_02_Test {
         Account map(Person p);
     }
     // end::PersonToAccountMapper[]
-
+    interface YoloMapper<T,R> {
+		R map(T p);
+	}
     // tag::map[]
-    private List<Account> map(List<Person> personList, PersonToAccountMapper mapper) {
-    	List<Account> map = new ArrayList<Account>();
-    	for(Person p : personList)
-    	{
-    		map.add(mapper.map(p));
+    private <V,T> List <V> map(List<T> pList, YoloMapper mapper){
+    	List<V> list = new ArrayList<V>();
+    	for(T e : pList){
+    		list.add((V) mapper.map(e));
     	}
-        return map;
+		return list;
     }
+
     // end::map[]
 
 
@@ -45,7 +47,7 @@ public class Lambda_02_Test {
         List<Account> result = map(personList, b -> {
         	Account a = new Account();
         	a.setBalance(100);
-        	a.setOwner(b);
+        	a.setOwner((Person) b);
         	return a;
         });
 
@@ -62,12 +64,7 @@ public class Lambda_02_Test {
         List<Person> personList = Data.buildPersonList(100);
 
         // TODO transformer la liste de personnes en liste de prénoms
-        List<String> result = new ArrayList();
-        for(Person p : personList)
-        {
-        	result.add(p.getFirstname());
-        }
-        
+        List<String> result = map(personList, p -> p.getFirstname());
         assertThat(result, hasSize(personList.size()));
         assertThat(result, everyItem(instanceOf(String.class)));
         assertThat(result, everyItem(startsWith("first")));
