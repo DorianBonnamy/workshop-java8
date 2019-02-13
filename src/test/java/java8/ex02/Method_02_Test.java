@@ -23,11 +23,8 @@ public class Method_02_Test {
         // TODO exemple de résultat : "[14 persons]", "[30 persons]"
         
         default String format()
-        {
-        	List<Person> person = findAll();
-        	int compteur = person.size();
-        	
-        	return "[" + compteur + " persons]";
+        {        	
+        	return "[" + this.findAll().size() + " persons]";
         }
     }
     // end::IDao[]
@@ -48,11 +45,8 @@ public class Method_02_Test {
         // TODO l'implémentation réutilise la méthode format() de l'interface
         @Override
         public String format()
-        {
-        	List<Person> person = findAll();
-        	int compteur = person.size();
-        	
-        	return "DaoA[" + compteur + " persons]";
+        {        	
+        	return "DaoA[" + this.findAll().size() + " persons]";
         }
     }
     // end::DaoA[]

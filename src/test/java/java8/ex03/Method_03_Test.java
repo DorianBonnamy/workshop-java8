@@ -16,13 +16,14 @@ public class Method_03_Test {
 
     // tag::IDao[]
     interface IDao {
-        List<Person> findAll();
+
+		List<Person> findAll();
 
         // TODO créer une méthode statique IDao getDefaultInstance()
         // TODO cette méthode retourne une instance de la classe DaoA
-        default IDao getDefaultInstance()
+        static IDao getDefaultInstance()
         {
-        	return this;
+        	return new Method_03_Test().new DaoA();
         }
     }
     // end::IDao[]
