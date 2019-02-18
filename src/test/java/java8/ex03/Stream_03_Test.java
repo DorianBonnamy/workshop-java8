@@ -78,7 +78,6 @@ public class Stream_03_Test {
 //        				.sorted()
 //        				.collect(Collectors.joining("|"))));
 //        		*
-//        		Tu penses que si on se met en missionnaire, la réponse vient d'elle même ?
         		
         assertThat(result.get(Gender.F), is("Alexandra|Marion|Sophie"));
         assertThat(result.get(Gender.M), is("Cyril|Johnny"));
